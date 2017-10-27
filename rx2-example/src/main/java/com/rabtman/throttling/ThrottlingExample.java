@@ -1,8 +1,9 @@
 package com.rabtman.throttling;
 
 import android.os.SystemClock;
-import android.util.Log;
-import com.rabtman.MainActivity;
+
+import com.rabtman.ALog;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -32,7 +33,7 @@ public class ThrottlingExample {
           @Override
           public void accept(@NonNull Integer integer) throws Exception {
             SystemClock.sleep(100);
-            Log.d(MainActivity.TAG, "<--------" + integer + "--------->");
+            ALog.Log("<--------" + integer + "--------->");
           }
         });
   }

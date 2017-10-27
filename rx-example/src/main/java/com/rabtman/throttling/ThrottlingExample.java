@@ -1,11 +1,15 @@
 package com.rabtman.throttling;
 
 import android.os.SystemClock;
-import android.util.Log;
-import com.rabtman.MainActivity;
+
+import com.rabtman.ALog;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -16,6 +20,9 @@ import rx.schedulers.Schedulers;
 
 public class ThrottlingExample {
 
+    public ThrottlingExample(){
+
+    }
   //sample
   public void showSample() {
     Observable.interval(1, TimeUnit.MILLISECONDS)
@@ -25,7 +32,7 @@ public class ThrottlingExample {
           @Override
           public void call(Long aLong) {
             SystemClock.sleep(1000);
-            Log.d(MainActivity.TAG, "<--------" + aLong + "--------->");
+            ALog.Log("showSample#"+"<--------" + aLong + "--------->");
           }
         }, new Action1<Throwable>() {
           @Override
@@ -44,7 +51,7 @@ public class ThrottlingExample {
           @Override
           public void call(Long aLong) {
             SystemClock.sleep(1000);
-            Log.d(MainActivity.TAG, "<--------" + aLong + "--------->");
+            ALog.Log("showtTrottleFirst#"+"<--------" + aLong + "--------->");
           }
         }, new Action1<Throwable>() {
           @Override
@@ -69,7 +76,7 @@ public class ThrottlingExample {
         .subscribe(new Action1<Long>() {
           @Override
           public void call(Long aLong) {
-            Log.d(MainActivity.TAG, "<--------" + aLong + "--------->");
+            ALog.Log("showDebounce#"+"<--------" + aLong + "--------->");
           }
         }, new Action1<Throwable>() {
           @Override
@@ -88,7 +95,7 @@ public class ThrottlingExample {
           @Override
           public void call(List<Long> aLong) {
             SystemClock.sleep(1000);
-            Log.d(MainActivity.TAG, "<--------" + aLong.toString() + "--------->");
+            ALog.Log("showtBuffer#"+"<--------" + aLong.toString() + "--------->");
           }
         }, new Action1<Throwable>() {
           @Override
@@ -97,4 +104,41 @@ public class ThrottlingExample {
           }
         });
   }
+
+    //window
+    public void showtWindow() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            list.add("hello i:" + i);
+        }
+        Observable.from(list).window(4).subscribe(new Subscriber<Observable<String>>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Observable<String> stringObservable) {
+                stringObservable.subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        ALog.Log("showtWindow#onNext: "+s);
+                    }
+                });
+                ALog.Log("showtWindow#onNext: "+"\n next group");
+            }
+        });
+    }
 }
