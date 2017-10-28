@@ -8,12 +8,14 @@ import com.rabtman.backpressure.BackpressureExample;
 import com.rabtman.example.R;
 import com.rabtman.throttling.ThrottlingExample;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
-  @Bind(R.id.button11)  Button btn11;
+  private Unbinder mUnbinder;
+  @BindView(R.id.button11)  Button btn11;
   public static final String TAG = "MainActivity";
   BackpressureExample backpressureExample;//关于背压
   ThrottlingExample throttlingExample;//关于节流
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
+    mUnbinder = ButterKnife.bind(this);
     backpressureExample = new BackpressureExample();
     throttlingExample = new ThrottlingExample();
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onDestroy(){
     backpressureExample.unsubscribe();
     super.onDestroy();
+    mUnbinder.unbind();
   }
 
   @OnClick(R.id.tv) void backpressureExampleUnsubscribe() {

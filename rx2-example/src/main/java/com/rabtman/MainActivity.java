@@ -1,23 +1,24 @@
 package com.rabtman;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.rabtman.backpressure.BackpressureExample;
 import com.rabtman.example2.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class MainActivity extends Activity {
-
+public class MainActivity extends AppCompatActivity {
   public static final String TAG = "MainActivity";
+  private Unbinder mUnbinder;
   BackpressureExample backpressureExample;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
+    mUnbinder = ButterKnife.bind(this);
     backpressureExample = new BackpressureExample();
   }
 
@@ -25,6 +26,12 @@ public class MainActivity extends Activity {
   protected void onStop(){
     super.onStop();
     backpressureExample.unsubscribe();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    mUnbinder.unbind();
   }
 
   @OnClick(R.id.tv) void unsubscribe() {
