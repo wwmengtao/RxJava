@@ -234,18 +234,18 @@ public class BackpressureExample {
           }
           @Override
           public void onNext(Integer s) {
-              ALog.Log("pullViaError#onNext: "+s.intValue());
+              ALog.Log("pullViaBackpressureStrategy#onNext: "+s.intValue());
               mSubscription.request(1);
           }
 
           @Override
           public void onError(Throwable t) {
-              ALog.Log("pullViaError#onError:\n"+t.fillInStackTrace().toString());
+              ALog.Log("pullViaBackpressureStrategy#onError:\n"+t.fillInStackTrace().toString());
           }
 
           @Override
           public void onComplete() {
-              ALog.Log("pullViaError#onComplete");
+              ALog.Log("pullViaBackpressureStrategy#onComplete");
           }
       });
   }
