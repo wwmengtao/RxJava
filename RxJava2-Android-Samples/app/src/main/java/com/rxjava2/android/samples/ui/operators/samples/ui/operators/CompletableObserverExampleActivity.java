@@ -2,11 +2,11 @@ package com.rxjava2.android.samples.ui.operators.samples.ui.operators;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.ui.operators.samples.utils.AppConstant;
 
@@ -59,21 +59,21 @@ public class CompletableObserverExampleActivity extends AppCompatActivity {
         return new CompletableObserver() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
+                ALog.Log(TAG+ " onSubscribe : " + d.isDisposed());
             }
 
             @Override
             public void onComplete() {
                 textView.append(" onComplete");
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onComplete");
+                ALog.Log(TAG+ " onComplete");
             }
 
             @Override
             public void onError(Throwable e) {
                 textView.append(" onError : " + e.getMessage());
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
+                ALog.Log(TAG+ " onError : " + e.getMessage());
             }
         };
     }

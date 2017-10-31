@@ -2,11 +2,11 @@ package com.rxjava2.android.samples.ui.operators;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.utils.AppConstant;
 
@@ -14,6 +14,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -47,6 +48,12 @@ public class SimpleExampleActivity extends AppCompatActivity {
         getObservable()
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
+                .doOnNext(new Consumer() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        ALog.Log("doOnNext: "+(String)o);
+                    }
+                })
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver());
@@ -61,28 +68,28 @@ public class SimpleExampleActivity extends AppCompatActivity {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
+                ALog.Log(" onSubscribe : " + d.isDisposed());
             }
 
             @Override
             public void onNext(String value) {
                 textView.append(" onNext : value : " + value);
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onNext : value : " + value);
+                ALog.Log(" onNext : value : " + value);
             }
 
             @Override
             public void onError(Throwable e) {
                 textView.append(" onError : " + e.getMessage());
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
+                ALog.Log( " onError : " + e.getMessage());
             }
 
             @Override
             public void onComplete() {
                 textView.append(" onComplete");
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onComplete");
+                ALog.Log( " onComplete");
             }
         };
     }

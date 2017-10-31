@@ -1,8 +1,7 @@
 package com.rxjava2.android.samples.ui.operators.samples.utils;
 
-import android.util.Log;
-
 import com.androidnetworking.error.ANError;
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.ui.operators.samples.model.ApiUser;
 import com.rxjava2.android.samples.ui.operators.samples.model.User;
 
@@ -137,15 +136,15 @@ public class Utils {
                 // error.getErrorCode() - the ANError code from server
                 // error.getErrorBody() - the ANError body from server
                 // error.getErrorDetail() - just a ANError detail
-                Log.d(TAG, "onError errorCode : " + anError.getErrorCode());
-                Log.d(TAG, "onError errorBody : " + anError.getErrorBody());
-                Log.d(TAG, "onError errorDetail : " + anError.getErrorDetail());
+                ALog.Log(TAG+ "onError errorCode : " + anError.getErrorCode());
+                ALog.Log(TAG+ "onError errorBody : " + anError.getErrorBody());
+                ALog.Log(TAG+ "onError errorDetail : " + anError.getErrorDetail());
             } else {
                 // error.getErrorDetail() : connectionError, parseError, requestCancelledError
-                Log.d(TAG, "onError errorDetail : " + anError.getErrorDetail());
+                ALog.Log(TAG+ "onError errorDetail : " + anError.getErrorDetail());
             }
         } else {
-            Log.d(TAG, "onError errorMessage : " + e.getMessage());
+            ALog.Log(TAG+ "onError errorMessage : " + e.getMessage());
         }
     }
 

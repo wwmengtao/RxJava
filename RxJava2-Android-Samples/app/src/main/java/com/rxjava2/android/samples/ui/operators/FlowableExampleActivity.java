@@ -2,11 +2,11 @@ package com.rxjava2.android.samples.ui.operators;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.utils.AppConstant;
 
@@ -60,21 +60,21 @@ public class FlowableExampleActivity extends AppCompatActivity {
         return new SingleObserver<Integer>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
+                ALog.Log(TAG+ " onSubscribe : " + d.isDisposed());
             }
 
             @Override
             public void onSuccess(Integer value) {
                 textView.append(" onSuccess : value : " + value);
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onSuccess : value : " + value);
+                ALog.Log(TAG+ " onSuccess : value : " + value);
             }
 
             @Override
             public void onError(Throwable e) {
                 textView.append(" onError : " + e.getMessage());
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
+                ALog.Log(TAG+ " onError : " + e.getMessage());
             }
         };
     }

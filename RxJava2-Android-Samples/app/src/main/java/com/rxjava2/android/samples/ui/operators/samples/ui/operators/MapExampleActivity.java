@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
-import com.rxjava2.android.samples.ui.operators.samples.ALog;
 import com.rxjava2.android.samples.ui.operators.samples.model.ApiUser;
 import com.rxjava2.android.samples.ui.operators.samples.model.User;
 import com.rxjava2.android.samples.ui.operators.samples.utils.AppConstant;
@@ -83,7 +83,7 @@ public class MapExampleActivity extends AppCompatActivity {
             @Override
             public void subscribe(ObservableEmitter<List<ApiUser>> e) throws Exception {
                 if (!e.isDisposed()) {
-                    Log.d(TAG, "subscribe" );
+                    ALog.Log(TAG+ "subscribe" );
                     e.onNext(Utils.getApiUserList());
                     e.onComplete();
                 }
@@ -138,7 +138,7 @@ public class MapExampleActivity extends AppCompatActivity {
 
             @Override
             public void onSubscribe(Disposable d) {
-                Log.d(TAG, "onSubscribe" );
+                ALog.Log(TAG+ "onSubscribe" );
             }
 
             @Override
@@ -150,21 +150,21 @@ public class MapExampleActivity extends AppCompatActivity {
                     textView.append(" firstname : " + user.firstname);
                     textView.append(AppConstant.LINE_SEPARATOR);
                 }
-                Log.d(TAG, " onNext : " + userList.size());
+                ALog.Log(TAG+ " onNext : " + userList.size());
             }
 
             @Override
             public void onError(Throwable e) {
                 textView.append(" onError : " + e.getMessage());
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
+                ALog.Log(TAG+ " onError : " + e.getMessage());
             }
 
             @Override
             public void onComplete() {
                 textView.append(" onComplete");
                 textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onComplete");
+                ALog.Log(TAG+ " onComplete");
             }
         };
     }

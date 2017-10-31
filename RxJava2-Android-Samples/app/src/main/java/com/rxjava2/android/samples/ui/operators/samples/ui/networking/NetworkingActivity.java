@@ -2,11 +2,11 @@ package com.rxjava2.android.samples.ui.operators.samples.ui.networking;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.ui.operators.samples.model.ApiUser;
 import com.rxjava2.android.samples.ui.operators.samples.model.User;
@@ -67,7 +67,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(User user) {
-                        Log.d(TAG, "user : " + user.toString());
+                        ALog.Log(TAG+ "user : " + user.toString());
                     }
 
                     @Override
@@ -77,7 +77,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
                 });
     }
@@ -132,9 +132,9 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<User> users) {
                         // do anything with user who loves both
-                        Log.d(TAG, "userList size : " + users.size());
+                        ALog.Log(TAG+ "userList size : " + users.size());
                         for (User user : users) {
-                            Log.d(TAG, "user : " + user.toString());
+                            ALog.Log(TAG+ "user : " + user.toString());
                         }
                     }
 
@@ -145,7 +145,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
                 });
     }
@@ -205,7 +205,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(User user) {
                         // only the user who is following me comes here one by one
-                        Log.d(TAG, "user : " + user.toString());
+                        ALog.Log(TAG+ "user : " + user.toString());
                     }
 
                     @Override
@@ -215,7 +215,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
                 });
     }
@@ -245,7 +245,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(User user) {
                         // // only four user comes here one by one
-                        Log.d(TAG, "user : " + user.toString());
+                        ALog.Log(TAG+ "user : " + user.toString());
                     }
 
                     @Override
@@ -255,7 +255,7 @@ public class NetworkingActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
                 });
     }
@@ -298,12 +298,12 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(UserDetail userDetail) {
                         // do anything with userDetail
-                        Log.d(TAG, "userDetail : " + userDetail.toString());
+                        ALog.Log(TAG+ "userDetail : " + userDetail.toString());
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
                 });
     }
@@ -359,7 +359,7 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
                         // do something onCompleted
-                        Log.d(TAG, "onComplete");
+                        ALog.Log(TAG+ "onComplete");
                     }
 
                     @Override
@@ -378,8 +378,8 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we are getting the userDetail for the corresponding user one by one
                         UserDetail userDetail = pair.first;
                         User user = pair.second;
-                        Log.d(TAG, "user : " + user.toString());
-                        Log.d(TAG, "userDetail : " + userDetail.toString());
+                        ALog.Log(TAG+ "user : " + user.toString());
+                        ALog.Log(TAG+ "userDetail : " + userDetail.toString());
                     }
                 });
     }
