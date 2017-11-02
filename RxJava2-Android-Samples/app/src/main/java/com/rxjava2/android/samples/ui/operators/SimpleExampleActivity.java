@@ -15,7 +15,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by amitshekhar on 27/08/16.
@@ -47,16 +46,25 @@ public class SimpleExampleActivity extends AppCompatActivity {
     private void doSomeWork() {
         getObservable()
                 // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Consumer() {
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<String>() {
                     @Override
-                    public void accept(Object o) throws Exception {
-                        ALog.Log("doOnNext: "+(String)o);
+                    public void accept(String str) throws Exception {
+                        textView.append(" doOnNext : value : " + str);
+                        textView.append(AppConstant.LINE_SEPARATOR);
+                        ALog.Log("doOnNext: "+str+" "+Thread.currentThread().toString());
                     }
                 })
+                .doOnNext(this::myDoOnNext)
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver());
+    }
+
+    private void myDoOnNext(String str){
+        textView.append(" myDoOnNext : value : " + str);
+        textView.append(AppConstant.LINE_SEPARATOR);
+        ALog.Log("myDoOnNext: "+str+" "+Thread.currentThread().toString());
     }
 
     private Observable<String> getObservable() {
