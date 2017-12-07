@@ -10,6 +10,8 @@ import com.rxjava2.android.samples.ALog;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.utils.AppConstant;
 
+import java.nio.charset.StandardCharsets;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -62,6 +64,7 @@ public class SimpleExampleActivity extends AppCompatActivity {
     }
 
     private void myDoOnNext(String str){
+        StandardCharsets.UTF_8.name();
         textView.append(" myDoOnNext : value : " + str);
         textView.append(AppConstant.LINE_SEPARATOR);
         ALog.Log("myDoOnNext: "+str+" "+Thread.currentThread().toString());
