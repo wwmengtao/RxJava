@@ -1,5 +1,6 @@
 package com.rxjava2.android.samples.ui.operators;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -64,7 +65,9 @@ public class SimpleExampleActivity extends AppCompatActivity {
     }
 
     private void myDoOnNext(String str){
-        StandardCharsets.UTF_8.name();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            StandardCharsets.UTF_8.name();
+        }
         textView.append(" myDoOnNext : value : " + str);
         textView.append(AppConstant.LINE_SEPARATOR);
         ALog.Log("myDoOnNext: "+str+" "+Thread.currentThread().toString());
