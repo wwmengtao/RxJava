@@ -121,7 +121,10 @@ public class Utils {
         for (User cricketFan : cricketFans) {
             for (User footballFan : footballFans) {
                 if (cricketFan.id == footballFan.id) {
+                    cricketFan.firstname += "love cricket";
+                    footballFan.firstname += "love football";
                     userWhoLovesBoth.add(cricketFan);
+                    userWhoLovesBoth.add(footballFan);
                 }
             }
         }

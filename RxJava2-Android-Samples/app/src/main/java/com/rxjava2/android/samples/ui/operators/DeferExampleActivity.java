@@ -23,14 +23,17 @@ public class DeferExampleActivity extends AppCompatActivity {
     private static final String TAG = DeferExampleActivity.class.getSimpleName();
     Button btn;
     TextView textView;
-
+    private Car car = null;
+    private Observable<String> brandDeferObservable = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_example);
         btn = (Button) findViewById(R.id.btn);
         textView = (TextView) findViewById(R.id.textView);
-
+        //
+        car = new Car();
+        brandDeferObservable = car.brandDeferObservable();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,13 +45,9 @@ public class DeferExampleActivity extends AppCompatActivity {
     /*
      * Defer used for Deferring Observable code until subscription in RxJava
      */
+    int index = 0;
     private void doSomeWork() {
-
-        Car car = new Car();
-
-        Observable<String> brandDeferObservable = car.brandDeferObservable();
-
-        car.setBrand("BMW");  // Even if we are setting the brand after creating Observable
+        car.setBrand("BMW: "+index++);  // Even if we are setting the brand after creating Observable
         // we will get the brand as BMW.
         // If we had not used defer, we would have got null as the brand.
 

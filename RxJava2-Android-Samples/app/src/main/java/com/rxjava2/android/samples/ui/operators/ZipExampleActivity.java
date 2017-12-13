@@ -31,7 +31,7 @@ public class ZipExampleActivity extends AppCompatActivity {
     private static final String TAG = ZipExampleActivity.class.getSimpleName();
     Button btn;
     TextView textView;
-
+    private long preTime, nowTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +54,12 @@ public class ZipExampleActivity extends AppCompatActivity {
     * Then we are finding the list of users who loves both
     */
     private void doSomeWork() {
+        /**
+         * zip适用场景：有多个不同来源的数据需要组合产生新的数据。
+         * getCricketFansObservable和getFootballFansObservable执行耗时操作的话，如果两者都不指定新线程，那么将在同一个
+         * 线程中运行，耗时为两个任务的时间之和；如果都指定新线程的话，耗时为两者中时间最长的那个。
+         */
+
         Observable.zip(getCricketFansObservable(), getFootballFansObservable(),
                 new BiFunction<List<User>, List<User>, List<User>>() {
                     @Override
@@ -69,25 +75,39 @@ public class ZipExampleActivity extends AppCompatActivity {
     }
 
     private Observable<List<User>> getCricketFansObservable() {
+        ALog.Log(TAG+ " getCricketFansObservable");
         return Observable.create(new ObservableOnSubscribe<List<User>>() {
             @Override
             public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
-                if (!e.isDisposed()) {
-                    e.onNext(Utils.getUserListWhoLovesCricket());
-                    e.onComplete();
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!e.isDisposed()) {
+                            ALog.sleep(3000);
+                            e.onNext(Utils.getUserListWhoLovesCricket());
+                            e.onComplete();
+                        }
+                    }
+                }).start();
             }
         });
     }
 
     private Observable<List<User>> getFootballFansObservable() {
+        ALog.Log(TAG+ " getFootballFansObservable");
         return Observable.create(new ObservableOnSubscribe<List<User>>() {
             @Override
             public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
-                if (!e.isDisposed()) {
-                    e.onNext(Utils.getUserListWhoLovesFootball());
-                    e.onComplete();
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!e.isDisposed()) {
+                            ALog.sleep(2000);
+                            e.onNext(Utils.getUserListWhoLovesFootball());
+                            e.onComplete();
+                        }
+                    }
+                }).start();
             }
         });
     }
@@ -97,17 +117,21 @@ public class ZipExampleActivity extends AppCompatActivity {
 
             @Override
             public void onSubscribe(Disposable d) {
+                preTime = System.currentTimeMillis();
                 ALog.Log(TAG+ " onSubscribe : " + d.isDisposed());
             }
 
             @Override
             public void onNext(List<User> userList) {
+                nowTime = System.currentTimeMillis();
                 textView.append(" onNext");
                 textView.append(AppConstant.LINE_SEPARATOR);
                 for (User user : userList) {
                     textView.append(" firstname : " + user.firstname);
                     textView.append(AppConstant.LINE_SEPARATOR);
                 }
+                //以下打印出此次观察者从申请观察到得到数据的耗时
+                textView.append("Zip operator cost " + (nowTime - preTime)/1000 + " seconds!\n");
                 ALog.Log(TAG+ " onNext : " + userList.size());
             }
 

@@ -132,9 +132,9 @@ public class NetworkingActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<User> users) {
                         // do anything with user who loves both
-                        ALog.Log(TAG+ "userList size : " + users.size());
+                        ALog.Log(TAG+ " userList size : " + users.size());
                         for (User user : users) {
-                            ALog.Log(TAG+ "user : " + user.toString());
+                            ALog.Log(TAG+ " user : " + user.toString());
                         }
                     }
 

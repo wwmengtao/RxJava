@@ -1,5 +1,7 @@
 package com.rxjava2.android.samples.model;
 
+import com.rxjava2.android.samples.ALog;
+
 import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
@@ -20,6 +22,7 @@ public class Car {
         return Observable.defer(new Callable<ObservableSource<? extends String>>() {
             @Override
             public ObservableSource<? extends String> call() throws Exception {
+                ALog.Log("Car.ObservableSource");
                 return Observable.just(brand);
             }
         });
