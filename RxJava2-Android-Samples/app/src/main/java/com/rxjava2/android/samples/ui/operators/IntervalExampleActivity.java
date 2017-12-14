@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,10 +62,23 @@ public class IntervalExampleActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(getObserver()));
     }
-
+    int sleepIndex = 1;
+    long preTime = 0, nowTime = 0;
     private Observable<? extends Long> getObservable() {
-        return Observable.interval(0, 2, TimeUnit.SECONDS);
+        return Observable.interval(0, 2, TimeUnit.SECONDS)
+                .map(new Function<Long,Long>() {
+                    @Override
+                    public Long apply(Long l) throws Exception {
+                        ALog.sleep(sleepIndex++*1000);
+                        nowTime = System.currentTimeMillis();
+                        //下列log信息说明RX的interval配合map可以实现上一个任务执行完毕之后再间隔一定时间执行下一个任务
+                        if(0!=preTime)ALog.Log("Observable.interval: "+(nowTime - preTime)/1000);
+                        preTime = System.currentTimeMillis();
+                        return l;
+                    }
+                });
     }
+
 
     private DisposableObserver<Long> getObserver() {
         return new DisposableObserver<Long>() {

@@ -11,16 +11,15 @@ import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.model.ApiUser;
 import com.rxjava2.android.samples.model.User;
 import com.rxjava2.android.samples.model.UserDetail;
-import com.rxjava2.android.samples.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
@@ -32,24 +31,33 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NetworkingActivity extends AppCompatActivity {
 
-    public static final String TAG = NetworkingActivity.class.getSimpleName();
+    public static final String TAG = NetworkingActivity.class.getSimpleName()+" ";
+    private Unbinder mUnbinder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_networking);
+        mUnbinder = ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDestroy(){
+        ObsFetcher.reset();
+        mUnbinder.unbind();
+        super.onDestroy();
     }
 
     /**
      * Map Operator Example
      */
+    @OnClick(R.id.map)
     public void map(View view) {
+        ALog.Log(TAG+"Execute operation: "+"map");
         Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAnUser/{userId}")
                 .addPathParameter("userId", "1")
                 .build()
                 .getObjectObservable(ApiUser.class)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .map(new Function<ApiUser, User>() {
                     @Override
                     public User apply(ApiUser apiUser) throws Exception {
@@ -59,174 +67,59 @@ public class NetworkingActivity extends AppCompatActivity {
                         return user;
                     }
                 })
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-                        ALog.Log(TAG+ "user : " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        ALog.Log(TAG+ "onComplete");
-                    }
-                });
-    }
-
-
-    /**
-     * zip Operator Example
-     */
-
-    /**
-     * This observable return the list of User who loves cricket
-     */
-    private Observable<List<User>> getCricketFansObservable() {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllCricketFans")
-                .build()
-                .getObjectListObservable(User.class);
-    }
-
-    /*
-    * This observable return the list of User who loves Football
-    */
-    private Observable<List<User>> getFootballFansObservable() {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllFootballFans")
-                .build()
-                .getObjectListObservable(User.class);
-    }
-
-    /*
-    * This do the complete magic, make both network call
-    * and then returns the list of user who loves both
-    * Using zip operator to get both response at a time
-    */
-    private void findUsersWhoLovesBoth() {
-        // here we are using zip operator to combine both request
-        Observable.zip(getCricketFansObservable(), getFootballFansObservable(),
-                new BiFunction<List<User>, List<User>, List<User>>() {
-                    @Override
-                    public List<User> apply(List<User> cricketFans, List<User> footballFans) throws Exception {
-                        List<User> userWhoLovesBoth =
-                                filterUserWhoLovesBoth(cricketFans, footballFans);
-                        return userWhoLovesBoth;
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<User>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<User> users) {
-                        // do anything with user who loves both
-                        ALog.Log(TAG+ "userList size : " + users.size());
-                        for (User user : users) {
-                            ALog.Log(TAG+ "user : " + user.toString());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        ALog.Log(TAG+ "onComplete");
-                    }
-                });
-    }
-
-    private List<User> filterUserWhoLovesBoth(List<User> cricketFans, List<User> footballFans) {
-        List<User> userWhoLovesBoth = new ArrayList<>();
-        for (User cricketFan : cricketFans) {
-            for (User footballFan : footballFans) {
-                if (cricketFan.id == footballFan.id) {
-                    userWhoLovesBoth.add(cricketFan);
-                }
-            }
-        }
-        return userWhoLovesBoth;
-    }
-
-
-    public void zip(View view) {
-        findUsersWhoLovesBoth();
-    }
-
-
-    /**
-     * flatMap and filter Operators Example
-     */
-
-    private Observable<List<User>> getAllMyFriendsObservable() {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllFriends/{userId}")
-                .addPathParameter("userId", "1")
-                .build()
-                .getObjectListObservable(User.class);
-    }
-
-    public void flatMapAndFilter(View view) {
-        getAllMyFriendsObservable()
-                .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
-                    @Override
-                    public ObservableSource<User> apply(List<User> usersList) throws Exception {
-                        return Observable.fromIterable(usersList); // returning user one by one from usersList.
-                    }
-                })
-                .filter(new Predicate<User>() {
-                    @Override
-                    public boolean test(User user) throws Exception {
-                        // filtering user who follows me.
-                        return user.isFollowing;
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .subscribe(ObserverInfo.getObUser());
+    }
 
-                    }
+    @OnClick(R.id.zip)
+    public void zip(View view) {
+        ALog.Log(TAG+"Execute operation: "+"zip");
+        /*
+        * This do the complete magic, make both network call
+        * and then returns the list of user who loves both
+        * Using zip operator to get both response at a time
+        */
+        long time_dsw_1, time_dsw_2;
+        time_dsw_1 = System.currentTimeMillis();
+        ObsFetcher.getZipFansObservable()//如果单独调用这一句，那么也是会执行的，不管有没有观察者注册。
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ObserverInfo.getObListUser());
+        time_dsw_2 = System.currentTimeMillis();
+        ALog.Log(TAG+"zip cost time: "+(time_dsw_2 - time_dsw_1));
+    }
 
-                    @Override
-                    public void onNext(User user) {
-                        // only the user who is following me comes here one by one
-                        ALog.Log(TAG+ "user : " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        ALog.Log(TAG+ "onComplete");
-                    }
-                });
+    @OnClick(R.id.flatMapAndFilter)
+    public void flatMapAndFilter(View view) {
+        ALog.Log(TAG+"Execute operation: "+"flatMapAndFilter");
+        ObsFetcher.getAllMyFriendsObservable()
+        .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
+            @Override
+            public ObservableSource<User> apply(List<User> usersList) throws Exception {
+                return Observable.fromIterable(usersList); // returning user one by one from usersList.
+            }
+        })
+        .filter(new Predicate<User>() {
+            @Override
+            public boolean test(User user) throws Exception {
+                // filtering user who follows me.
+                return user.isFollowing;
+            }
+        })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(ObserverInfo.getObUser());
     }
 
 
     /**
      * take Operator Example
      */
-
+    @OnClick(R.id.take)
     public void take(View view) {
-        getUserListObservable()
+        ALog.Log(TAG+"Execute operation: "+"take");
+        ObsFetcher.getUserListObservable()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -236,37 +129,17 @@ public class NetworkingActivity extends AppCompatActivity {
                 .take(4) // it will only emit first 4 users out of all
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<User>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-                        // // only four user comes here one by one
-                        ALog.Log(TAG+ "user : " + user.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        ALog.Log(TAG+ "onComplete");
-                    }
-                });
+                .subscribe(ObserverInfo.getObUser());
     }
 
 
     /**
      * flatMap Operator Example
      */
-
+    @OnClick(R.id.flatMap)
     public void flatMap(View view) {
-        getUserListObservable()
+        ALog.Log(TAG+"Execute operation: "+"flatMap");
+        ObsFetcher.getUserListObservable()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -279,56 +152,18 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we get the user one by one
                         // and returns corresponding getUserDetailObservable
                         // for that userId
-                        return getUserDetailObservable(user.id);
+                        return ObsFetcher.getUserDetailObservable(user.id);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UserDetail>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onNext(UserDetail userDetail) {
-                        // do anything with userDetail
-                        ALog.Log(TAG+ "userDetail : " + userDetail.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        ALog.Log(TAG+ "onComplete");
-                    }
-                });
+                .subscribe(ObserverInfo.getObUserDetail());
     }
 
-    /**
-     * flatMapWithZip Operator Example
-     */
-
-    private Observable<List<User>> getUserListObservable() {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllUsers/{pageNumber}")
-                .addPathParameter("pageNumber", "0")
-                .addQueryParameter("limit", "10")
-                .build()
-                .getObjectListObservable(User.class);
-    }
-
-    private Observable<UserDetail> getUserDetailObservable(long id) {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAnUserDetail/{userId}")
-                .addPathParameter("userId", String.valueOf(id))
-                .build()
-                .getObjectObservable(UserDetail.class);
-    }
-
+    @OnClick(R.id.flatMapWithZip)
     public void flatMapWithZip(View view) {
-        getUserListObservable()
+        ALog.Log(TAG+"Execute operation: "+"flatMapWithZip");
+        ObsFetcher.getUserListObservable()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -341,7 +176,7 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we get the user one by one and then we are zipping
                         // two observable - one getUserDetailObservable (network call to get userDetail)
                         // and another Observable.just(user) - just to emit user
-                        return Observable.zip(getUserDetailObservable(user.id),
+                        return Observable.zip(ObsFetcher.getUserDetailObservable(user.id),
                                 Observable.just(user),
                                 new BiFunction<UserDetail, User, Pair<UserDetail, User>>() {
                                     @Override
@@ -355,32 +190,6 @@ public class NetworkingActivity extends AppCompatActivity {
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Pair<UserDetail, User>>() {
-                    @Override
-                    public void onComplete() {
-                        // do something onCompleted
-                        ALog.Log(TAG+ "onComplete");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        // handle error
-                        Utils.logError(TAG, e);
-                    }
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<UserDetail, User> pair) {
-                        // here we are getting the userDetail for the corresponding user one by one
-                        UserDetail userDetail = pair.first;
-                        User user = pair.second;
-                        ALog.Log(TAG+ "user : " + user.toString());
-                        ALog.Log(TAG+ "userDetail : " + userDetail.toString());
-                    }
-                });
+                .subscribe(ObserverInfo.getObPair());
     }
 }
