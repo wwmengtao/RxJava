@@ -77,7 +77,9 @@ public class Utils {
     }
 
     public static List<User> getUserListWhoLovesCricket() {
-
+        long time1, time2;
+        time1 = System.currentTimeMillis();
+        //
         List<User> userList = new ArrayList<>();
 
         User userOne = new User();
@@ -91,13 +93,18 @@ public class Utils {
         userTwo.firstname = "Manish";
         userTwo.lastname = "Kumar";
         userList.add(userTwo);
-
+        //
+        ALog.sleep(2000);//模拟耗时操作
+        time2 = System.currentTimeMillis();
+        ALog.Log("getUserListWhoLovesCricket cost time: "+(time2 - time1)+" "+Thread.currentThread().getName());
         return userList;
     }
 
 
     public static List<User> getUserListWhoLovesFootball() {
-
+        long time1, time2;
+        time1 = System.currentTimeMillis();
+        //
         List<User> userList = new ArrayList<>();
 
         User userOne = new User();
@@ -111,7 +118,10 @@ public class Utils {
         userTwo.firstname = "Sumit";
         userTwo.lastname = "Kumar";
         userList.add(userTwo);
-
+        //
+        ALog.sleep(4000);//模拟耗时操作
+        time2 = System.currentTimeMillis();
+        ALog.Log("getUserListWhoLovesFootball cost time: "+(time2 - time1)+" "+Thread.currentThread().getName());
         return userList;
     }
 

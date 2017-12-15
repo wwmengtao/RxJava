@@ -25,10 +25,16 @@ public class ObsFetcher {
         preTime = -1;
         nowTime = -1;
     }
+
     /**
-     * zip Operator Example
+     * getZipFansObservable：通过下列getZipFansObservable耗时粗略统计两个getxxxFansObservable方法耗时统计可以得知，zip的两个
+     * getxxxFansObservable方法是串行执行的，而非并行。就算将两者放入新线程执行也是如此，这或许就是Rx2AndroidNetworking的运行特点。
+     * 注意此时的zip耗时和ZipExampleActivity中的zip耗时区别，后者zip中两个getxxxFansObservable方法是真正的并行。
+     * @return
      */
+
     public static Observable<List<User>> getZipFansObservable() {
+        ALog.Log("ObsFetcher_getZipFansObservable");
         preTime = System.currentTimeMillis();
         Observable<List<User>> data =
         Observable.zip(getCricketFansObservable().subscribeOn(Schedulers.newThread()),
@@ -39,8 +45,6 @@ public class ObsFetcher {
                         List<User> userWhoLovesBoth =
                                 filterUserWhoLovesBoth(cricketFans, footballFans);
                         nowTime = System.currentTimeMillis();
-                        //通过下列zip耗时粗略统计以及上述两个getxxxFansObservable方法耗时统计可以得知，zip的两个
-                        //getxxxFansObservable方法是串行执行的，而非并行。为了提高效率，可以将两者放入新线程执行。
                         ALog.Log("getZipFansObservable cost time: "+(nowTime - preTime));
                         return userWhoLovesBoth;
                     }
