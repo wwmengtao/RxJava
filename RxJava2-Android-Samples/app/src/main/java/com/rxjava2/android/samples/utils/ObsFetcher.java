@@ -40,7 +40,7 @@ public class ObsFetcher {
         ALog.Log(TAG+"getZipFansObservable");
         preTime = System.currentTimeMillis();
         Observable<List<User>> data =
-        Observable.zip(getCricketFansObs().subscribeOn(Schedulers.newThread()),
+            Observable.zip(getCricketFansObs().subscribeOn(Schedulers.newThread()),
                        getFootballFansObs().subscribeOn(Schedulers.io()),
                 new BiFunction<List<User>, List<User>, List<User>>() {
                     @Override
@@ -127,7 +127,7 @@ public class ObsFetcher {
                 .getObjectListObservable(User.class);
     }
 
-    public static Observable<? extends Long> getIntervalMapObs() {
+    public static Observable<Long> getIntervalMapObs() {
         return Observable.interval(0, 2, TimeUnit.SECONDS)
                 .map(new Function<Long,Long>() {
                     @Override
@@ -138,6 +138,39 @@ public class ObsFetcher {
                         if(0!=preTime)ALog.Log("Observable.interval: "+(nowTime - preTime)/1000);
                         preTime = System.currentTimeMillis();
                         return l;
+                    }
+                });
+    }
+
+    //getIntervalMapFlatMapObs：实现定时获取zip混合数据的效果，注意map和flatMap的区别
+    public static Observable<List<User>> getIntervalMapFlatMapObs() {
+        return Observable.interval(0, 2, TimeUnit.SECONDS)
+                .map(new Function<Long, Observable<List<User>>>() {
+                    @Override
+                    public Observable<List<User>> apply(Long l) throws Exception {
+                        ALog.sleep(sleepIndex++*1000);
+                        nowTime = System.currentTimeMillis();
+                        //下列log信息说明RX的interval配合map可以实现上一个任务执行完毕之后再间隔一定时间执行下一个任务
+                        if(0!=preTime)ALog.Log("Observable.interval: "+(nowTime - preTime)/1000);
+                        preTime = System.currentTimeMillis();
+                        return ObsFetcher.getZipFansObservable();
+                    }
+                })
+                .flatMap(new Function<Observable<List<User>>, Observable<List<User>>>(){
+                    @Override
+                    public Observable<List<User>> apply(Observable<List<User>> obs) throws Exception {
+                        return obs;
+                    }
+                });
+    }
+
+    //getIntervalFlatMapObs：实现定时获取zip混合数据的效果
+    public static Observable<List<User>> getIntervalFlatMapObs() {
+        return Observable.interval(0, 2, TimeUnit.SECONDS)
+                .flatMap(new Function<Long, Observable<List<User>>>(){
+                    @Override
+                    public Observable<List<User>> apply(Long obs) throws Exception {
+                        return ObsFetcher.getZipFansObservable();
                     }
                 });
     }
