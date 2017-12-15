@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class ConcatExampleActivity extends AppCompatActivity {
+public class ConcatExampleActivity extends BaseActivity {
 
     private static final String TAG = ConcatExampleActivity.class.getSimpleName();
     Button btn;

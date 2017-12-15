@@ -1,14 +1,14 @@
 package com.rxjava2.android.samples.ui.compose;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.rxjava2.android.samples.R;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
-public class ComposeOperatorExampleActivity extends AppCompatActivity {
+public class ComposeOperatorExampleActivity extends BaseActivity {
 
     private RxSchedulers schedulers = new RxSchedulers();
 

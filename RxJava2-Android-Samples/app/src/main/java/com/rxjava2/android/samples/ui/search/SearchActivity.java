@@ -1,11 +1,11 @@
 package com.rxjava2.android.samples.ui.search;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.rxjava2.android.samples.R;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by amitshekhar on 15/10/17.
  */
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
 
     public static final String TAG = SearchActivity.class.getSimpleName();
     private SearchView searchView;

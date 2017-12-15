@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class DisposableExampleActivity extends AppCompatActivity {
+public class DisposableExampleActivity extends BaseActivity {
 
     private static final String TAG = DisposableExampleActivity.class.getSimpleName();
     Button btn;

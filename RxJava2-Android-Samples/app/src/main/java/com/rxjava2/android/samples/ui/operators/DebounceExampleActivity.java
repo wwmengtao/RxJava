@@ -24,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by amitshekhar on 22/12/16.
  */
 
-public class DebounceExampleActivity extends AppCompatActivity {
+public class DebounceExampleActivity extends BaseActivity {
 
     private static final String TAG = DebounceExampleActivity.class.getSimpleName();
     Button btn;

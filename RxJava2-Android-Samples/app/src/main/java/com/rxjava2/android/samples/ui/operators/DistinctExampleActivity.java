@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by techteam on 13/09/16.
  */
-public class DistinctExampleActivity extends AppCompatActivity {
+public class DistinctExampleActivity extends BaseActivity {
 
     private static final String TAG = DistinctExampleActivity.class.getSimpleName();
     Button btn;

@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class TimerExampleActivity extends AppCompatActivity {
+public class TimerExampleActivity extends BaseActivity {
 
     private static final String TAG = TimerExampleActivity.class.getSimpleName();
     Button btn;

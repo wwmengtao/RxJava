@@ -18,7 +18,7 @@ import io.reactivex.functions.BiFunction;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class FlowableExampleActivity extends AppCompatActivity {
+public class FlowableExampleActivity extends BaseActivity {
 
     private static final String TAG = FlowableExampleActivity.class.getSimpleName();
     Button btn;

@@ -18,7 +18,7 @@ import io.reactivex.functions.BiFunction;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class ReduceExampleActivity extends AppCompatActivity {
+public class ReduceExampleActivity extends BaseActivity {
 
     private static final String TAG = ReduceExampleActivity.class.getSimpleName();
     Button btn;

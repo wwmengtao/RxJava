@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class CompletableObserverExampleActivity extends AppCompatActivity {
+public class CompletableObserverExampleActivity extends BaseActivity {
 
     private static final String TAG = CompletableObserverExampleActivity.class.getSimpleName();
     Button btn;

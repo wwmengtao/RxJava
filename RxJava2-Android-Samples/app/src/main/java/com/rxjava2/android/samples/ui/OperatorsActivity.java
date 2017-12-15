@@ -2,11 +2,11 @@ package com.rxjava2.android.samples.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.ui.operators.AsyncSubjectExampleActivity;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
 import com.rxjava2.android.samples.ui.operators.BehaviorSubjectExampleActivity;
 import com.rxjava2.android.samples.ui.operators.BufferExampleActivity;
 import com.rxjava2.android.samples.ui.operators.CompletableObserverExampleActivity;
@@ -37,7 +37,7 @@ import com.rxjava2.android.samples.ui.operators.TimerExampleActivity;
 import com.rxjava2.android.samples.ui.operators.WindowExampleActivity;
 import com.rxjava2.android.samples.ui.operators.ZipExampleActivity;
 
-public class OperatorsActivity extends AppCompatActivity {
+public class OperatorsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

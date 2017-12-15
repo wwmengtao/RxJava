@@ -22,7 +22,7 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class SimpleExampleActivity extends AppCompatActivity {
+public class SimpleExampleActivity extends BaseActivity {
 
     private static final String TAG = SimpleExampleActivity.class.getSimpleName();
     Button btn;

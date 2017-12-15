@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class MapExampleActivity extends AppCompatActivity {
+public class MapExampleActivity extends BaseActivity {
 
     private static final String TAG = MapExampleActivity.class.getSimpleName();
     Button btn;

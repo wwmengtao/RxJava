@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by amitshekhar on 30/08/16.
  */
-public class DeferExampleActivity extends AppCompatActivity {
+public class DeferExampleActivity extends BaseActivity {
 
     private static final String TAG = DeferExampleActivity.class.getSimpleName();
     Button btn;

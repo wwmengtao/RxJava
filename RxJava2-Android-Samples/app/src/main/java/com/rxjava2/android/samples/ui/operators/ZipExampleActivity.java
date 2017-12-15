@@ -26,7 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class ZipExampleActivity extends AppCompatActivity {
+public class ZipExampleActivity extends BaseActivity {
 
     private static final String TAG = ZipExampleActivity.class.getSimpleName();
     Button btn;

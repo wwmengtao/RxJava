@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
-public class ScanExampleActivity extends AppCompatActivity {
+public class ScanExampleActivity extends BaseActivity {
 
     private static final String TAG = ScanExampleActivity.class.getSimpleName();
     Button btn;

@@ -25,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by threshold on 2017/1/11.
  */
 
-public class ThrottleFirstExampleActivity extends AppCompatActivity {
+public class ThrottleFirstExampleActivity extends BaseActivity {
 
     private static final String TAG = ThrottleFirstExampleActivity.class.getSimpleName();
     Button btn;

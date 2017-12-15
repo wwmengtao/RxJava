@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by amitshekhar on 05/03/17.
  */
 
-public class DelayExampleActivity extends AppCompatActivity {
+public class DelayExampleActivity extends BaseActivity {
 
     private static final String TAG = DelayExampleActivity.class.getSimpleName();
     Button btn;

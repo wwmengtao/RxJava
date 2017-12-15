@@ -18,7 +18,7 @@ import io.reactivex.subjects.PublishSubject;
  * Created by amitshekhar on 17/12/16.
  */
 
-public class PublishSubjectExampleActivity extends AppCompatActivity {
+public class PublishSubjectExampleActivity extends BaseActivity {
 
     private static final String TAG = PublishSubjectExampleActivity.class.getSimpleName();
     Button btn;

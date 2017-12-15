@@ -1,7 +1,6 @@
 package com.rxjava2.android.samples.ui.rxbus;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 import com.rxjava2.android.samples.MyApplication;
 import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.model.Events;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by amitshekhar on 06/02/17.
  */
 
-public class RxBusActivity extends AppCompatActivity {
+public class RxBusActivity extends BaseActivity {
 
     public static final String TAG = RxBusActivity.class.getSimpleName();
     TextView textView;

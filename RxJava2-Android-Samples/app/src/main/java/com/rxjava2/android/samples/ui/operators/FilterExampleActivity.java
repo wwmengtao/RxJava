@@ -19,7 +19,7 @@ import io.reactivex.functions.Predicate;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class FilterExampleActivity extends AppCompatActivity {
+public class FilterExampleActivity extends BaseActivity {
 
     private static final String TAG = FilterExampleActivity.class.getSimpleName();
     Button btn;

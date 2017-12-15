@@ -1,4 +1,4 @@
-package com.rxjava2.android.samples.ui.networking;
+package com.rxjava2.android.samples.utils;
 
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.rxjava2.android.samples.ALog;
@@ -7,9 +7,11 @@ import com.rxjava2.android.samples.model.UserDetail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -17,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class ObsFetcher {
+    private static final String TAG = "ObsFetcher ";
     private static int sleepIndex = 1;
     private static long preTime = -1, nowTime = -1;
 
@@ -34,18 +37,18 @@ public class ObsFetcher {
      */
 
     public static Observable<List<User>> getZipFansObservable() {
-        ALog.Log("ObsFetcher_getZipFansObservable");
+        ALog.Log(TAG+"getZipFansObservable");
         preTime = System.currentTimeMillis();
         Observable<List<User>> data =
-        Observable.zip(getCricketFansObservable().subscribeOn(Schedulers.newThread()),
-                       getFootballFansObservable().subscribeOn(Schedulers.io()),
+        Observable.zip(getCricketFansObs().subscribeOn(Schedulers.newThread()),
+                       getFootballFansObs().subscribeOn(Schedulers.io()),
                 new BiFunction<List<User>, List<User>, List<User>>() {
                     @Override
                     public List<User> apply(List<User> cricketFans, List<User> footballFans) throws Exception {
                         List<User> userWhoLovesBoth =
                                 filterUserWhoLovesBoth(cricketFans, footballFans);
                         nowTime = System.currentTimeMillis();
-                        ALog.Log("getZipFansObservable cost time: "+(nowTime - preTime));
+                        ALog.Log(TAG+"getZipFansObservable cost time: "+(nowTime - preTime));
                         return userWhoLovesBoth;
                     }
                 });
@@ -67,7 +70,7 @@ public class ObsFetcher {
     /**
      * This observable return the list of User who loves cricket
      */
-    public static Observable<List<User>> getCricketFansObservable() {
+    public static Observable<List<User>> getCricketFansObs() {
         long preTime, nowTime;
         preTime = System.currentTimeMillis();
         ALog.sleep(sleepIndex++*1000);
@@ -75,14 +78,14 @@ public class ObsFetcher {
                 .build()
                 .getObjectListObservable(User.class);
         nowTime = System.currentTimeMillis();
-        ALog.Log("getCricketFansObservable cost time: "+(nowTime - preTime));
+        ALog.Log(TAG+"getCricketFansObservable cost time: "+(nowTime - preTime));
         return data;
     }
 
     /*
     * This observable return the list of User who loves Football
     */
-    public static Observable<List<User>> getFootballFansObservable() {
+    public static Observable<List<User>> getFootballFansObs() {
         long preTime, nowTime;
         preTime = System.currentTimeMillis();
         ALog.sleep(sleepIndex++*1000);
@@ -90,7 +93,7 @@ public class ObsFetcher {
                 .build()
                 .getObjectListObservable(User.class);
         nowTime = System.currentTimeMillis();
-        ALog.Log("getFootballFansObservable cost time: "+(nowTime - preTime));
+        ALog.Log(TAG+"getFootballFansObservable cost time: "+(nowTime - preTime));
         return data;
     }
 
@@ -98,14 +101,14 @@ public class ObsFetcher {
      * flatMap and filter Operators Example
      */
 
-    public static Observable<List<User>> getAllMyFriendsObservable() {
+    public static Observable<List<User>> getAllMyFriendsObs() {
         return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllFriends/{userId}")
                 .addPathParameter("userId", "1")
                 .build()
                 .getObjectListObservable(User.class);
     }
 
-    public static Observable<UserDetail> getUserDetailObservable(long id) {
+    public static Observable<UserDetail> getUserDetailObs(long id) {
         return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAnUserDetail/{userId}")
                 .addPathParameter("userId", String.valueOf(id))
                 .build()
@@ -116,11 +119,26 @@ public class ObsFetcher {
      * flatMapWithZip Operator Example
      */
 
-    public static Observable<List<User>> getUserListObservable() {
+    public static Observable<List<User>> getUserListObs() {
         return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllUsers/{pageNumber}")
                 .addPathParameter("pageNumber", "0")
                 .addQueryParameter("limit", "10")
                 .build()
                 .getObjectListObservable(User.class);
+    }
+
+    public static Observable<? extends Long> getIntervalMapObs() {
+        return Observable.interval(0, 2, TimeUnit.SECONDS)
+                .map(new Function<Long,Long>() {
+                    @Override
+                    public Long apply(Long l) throws Exception {
+                        ALog.sleep(sleepIndex++*1000);
+                        nowTime = System.currentTimeMillis();
+                        //下列log信息说明RX的interval配合map可以实现上一个任务执行完毕之后再间隔一定时间执行下一个任务
+                        if(0!=preTime)ALog.Log("Observable.interval: "+(nowTime - preTime)/1000);
+                        preTime = System.currentTimeMillis();
+                        return l;
+                    }
+                });
     }
 }

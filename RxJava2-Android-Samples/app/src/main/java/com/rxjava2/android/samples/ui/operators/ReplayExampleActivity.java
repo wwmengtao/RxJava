@@ -18,7 +18,7 @@ import io.reactivex.subjects.PublishSubject;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class ReplayExampleActivity extends AppCompatActivity {
+public class ReplayExampleActivity extends BaseActivity {
 
     private static final String TAG = ReplayExampleActivity.class.getSimpleName();
     Button btn;

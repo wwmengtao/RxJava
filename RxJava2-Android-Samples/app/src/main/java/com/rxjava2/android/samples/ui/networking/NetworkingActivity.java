@@ -1,7 +1,6 @@
 package com.rxjava2.android.samples.ui.networking;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.View;
 
@@ -11,6 +10,9 @@ import com.rxjava2.android.samples.R;
 import com.rxjava2.android.samples.model.ApiUser;
 import com.rxjava2.android.samples.model.User;
 import com.rxjava2.android.samples.model.UserDetail;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
+import com.rxjava2.android.samples.utils.ObsFetcher;
+import com.rxjava2.android.samples.utils.ObserverInfo;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by amitshekhar on 04/02/17.
  */
 
-public class NetworkingActivity extends AppCompatActivity {
+public class NetworkingActivity extends BaseActivity {
 
     public static final String TAG = NetworkingActivity.class.getSimpleName()+" ";
     private Unbinder mUnbinder = null;
@@ -93,7 +95,7 @@ public class NetworkingActivity extends AppCompatActivity {
     @OnClick(R.id.flatMapAndFilter)
     public void flatMapAndFilter(View view) {
         ALog.Log(TAG+"Execute operation: "+"flatMapAndFilter");
-        ObsFetcher.getAllMyFriendsObservable()
+        ObsFetcher.getAllMyFriendsObs()
         .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
             @Override
             public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -119,7 +121,7 @@ public class NetworkingActivity extends AppCompatActivity {
     @OnClick(R.id.take)
     public void take(View view) {
         ALog.Log(TAG+"Execute operation: "+"take");
-        ObsFetcher.getUserListObservable()
+        ObsFetcher.getUserListObs()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -139,7 +141,7 @@ public class NetworkingActivity extends AppCompatActivity {
     @OnClick(R.id.flatMap)
     public void flatMap(View view) {
         ALog.Log(TAG+"Execute operation: "+"flatMap");
-        ObsFetcher.getUserListObservable()
+        ObsFetcher.getUserListObs()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -152,7 +154,7 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we get the user one by one
                         // and returns corresponding getUserDetailObservable
                         // for that userId
-                        return ObsFetcher.getUserDetailObservable(user.id);
+                        return ObsFetcher.getUserDetailObs(user.id);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -163,7 +165,7 @@ public class NetworkingActivity extends AppCompatActivity {
     @OnClick(R.id.flatMapWithZip)
     public void flatMapWithZip(View view) {
         ALog.Log(TAG+"Execute operation: "+"flatMapWithZip");
-        ObsFetcher.getUserListObservable()
+        ObsFetcher.getUserListObs()
                 .flatMap(new Function<List<User>, ObservableSource<User>>() { // flatMap - to return users one by one
                     @Override
                     public ObservableSource<User> apply(List<User> usersList) throws Exception {
@@ -176,7 +178,7 @@ public class NetworkingActivity extends AppCompatActivity {
                         // here we get the user one by one and then we are zipping
                         // two observable - one getUserDetailObservable (network call to get userDetail)
                         // and another Observable.just(user) - just to emit user
-                        return Observable.zip(ObsFetcher.getUserDetailObservable(user.id),
+                        return Observable.zip(ObsFetcher.getUserDetailObs(user.id),
                                 Observable.just(user),
                                 new BiFunction<UserDetail, User, Pair<UserDetail, User>>() {
                                     @Override

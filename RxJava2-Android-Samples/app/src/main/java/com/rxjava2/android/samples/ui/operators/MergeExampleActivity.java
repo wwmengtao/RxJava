@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by amitshekhar on 28/08/16.
  */
-public class MergeExampleActivity extends AppCompatActivity {
+public class MergeExampleActivity extends BaseActivity {
 
     private static final String TAG = MergeExampleActivity.class.getSimpleName();
     Button btn;

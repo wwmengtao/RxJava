@@ -1,4 +1,4 @@
-package com.rxjava2.android.samples.ui.networking;
+package com.rxjava2.android.samples.utils;
 
 import android.util.Pair;
 
@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class ObserverInfo {
-    private static final String TAG_TOP = NetworkingActivity.TAG;
+    private static final String TAG_TOP = "ObserverInfo ";
 
     private static abstract class BaseObserver<T> implements Observer<T>{
         protected String TAG = null;

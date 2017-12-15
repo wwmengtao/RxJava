@@ -1,13 +1,13 @@
 package com.rxjava2.android.samples.ui.pagination;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.rxjava2.android.samples.R;
+import com.rxjava2.android.samples.ui.operators.BaseActivity;
 
 import org.reactivestreams.Publisher;
 
@@ -28,7 +28,7 @@ import io.reactivex.processors.PublishProcessor;
  * Created by amitshekhar on 15/03/17.
  */
 
-public class PaginationActivity extends AppCompatActivity {
+public class PaginationActivity extends BaseActivity {
 
     public static final String TAG = PaginationActivity.class.getSimpleName();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();

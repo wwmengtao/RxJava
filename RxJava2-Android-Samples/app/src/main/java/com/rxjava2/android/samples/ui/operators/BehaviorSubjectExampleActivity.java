@@ -18,7 +18,7 @@ import io.reactivex.subjects.BehaviorSubject;
  * Created by amitshekhar on 17/12/16.
  */
 
-public class BehaviorSubjectExampleActivity extends AppCompatActivity {
+public class BehaviorSubjectExampleActivity extends BaseActivity {
 
     private static final String TAG = BehaviorSubjectExampleActivity.class.getSimpleName();
     Button btn;

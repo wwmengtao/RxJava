@@ -18,7 +18,7 @@ import io.reactivex.subjects.ReplaySubject;
  * Created by amitshekhar on 17/12/16.
  */
 
-public class ReplaySubjectExampleActivity extends AppCompatActivity {
+public class ReplaySubjectExampleActivity extends BaseActivity {
 
     private static final String TAG = ReplaySubjectExampleActivity.class.getSimpleName();
     Button btn;

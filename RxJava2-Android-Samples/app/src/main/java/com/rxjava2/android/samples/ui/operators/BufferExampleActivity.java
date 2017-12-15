@@ -19,7 +19,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by amitshekhar on 27/08/16.
  */
-public class BufferExampleActivity extends AppCompatActivity {
+public class BufferExampleActivity extends BaseActivity {
 
     private static final String TAG = BufferExampleActivity.class.getSimpleName();
     Button btn;
