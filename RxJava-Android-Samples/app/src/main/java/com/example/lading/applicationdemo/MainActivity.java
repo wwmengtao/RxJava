@@ -55,23 +55,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Intent intent=null;
         switch (view.getId()){
-            case R.id.button1:intent=new Intent(MainActivity.this,NormalRxActivity.class);
-                break;
-            case R.id.button2: intent=new Intent(MainActivity.this,RxMapActivity.class);
-                break;
-            case R.id.button3:intent=new Intent(MainActivity.this,RxSchuderActivity.class);
-                break;
+
             case R.id.button4:intent=new Intent(MainActivity.this,RxFlatMapActivity.class);
                 break;
-            case R.id.button5:intent=new Intent(MainActivity.this,RxMergeActivity.class);
-                break;
             case R.id.button6:intent=new Intent(MainActivity.this,RxBindingActivity.class);
-                break;
-            case R.id.button7:intent=new Intent(MainActivity.this,RxFilterActivity.class);
-                break;
-            case R.id.button8:intent=new Intent(MainActivity.this,RxTakeActivity.class);
-                break;
-            case R.id.button9:intent=new Intent(MainActivity.this,RxTimerActivity.class);
                 break;
             case R.id.button10:intent=new Intent(MainActivity.this,RxSortActivity.class);
                 break;

@@ -37,6 +37,7 @@ public class ObsFetcher {
      */
 
     public static Observable<List<User>> getZipFansObservable() {
+        ALog.Log("/************************"+TAG+"************************/\n");
         ALog.Log(TAG+"getZipFansObservable");
         preTime = System.currentTimeMillis();
         Observable<List<User>> data =
@@ -78,7 +79,7 @@ public class ObsFetcher {
                 .build()
                 .getObjectListObservable(User.class);
         nowTime = System.currentTimeMillis();
-        ALog.Log(TAG+"getCricketFansObservable cost time: "+(nowTime - preTime));
+        ALog.Log(TAG+"getCricketFansObs cost time: "+(nowTime - preTime));
         return data;
     }
 
@@ -93,7 +94,7 @@ public class ObsFetcher {
                 .build()
                 .getObjectListObservable(User.class);
         nowTime = System.currentTimeMillis();
-        ALog.Log(TAG+"getFootballFansObservable cost time: "+(nowTime - preTime));
+        ALog.Log(TAG+"getFootballFansObs cost time: "+(nowTime - preTime));
         return data;
     }
 

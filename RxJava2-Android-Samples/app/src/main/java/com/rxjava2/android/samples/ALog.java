@@ -8,7 +8,7 @@ public class ALog {
 	private  static String TAG_M2 = TAG_M+"2";
 	private  static String TAG_M_T = TAG_M+"TIME";
 	public static void Log(String info){
-		Log.e(TAG_M,info);
+		Log.e(TAG_M,info+" "+Thread.currentThread().toString());
 	}
 
 	public static void Log1(String info){
