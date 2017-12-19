@@ -35,29 +35,11 @@
             android:name=".ui.search.SearchActivity"
             android:label="@string/search" />
         <activity
-            android:name=".ui.operators.SimpleExampleActivity"
-            android:label="@string/simple" />
-        <activity
-            android:name=".ui.operators.ZipExampleActivity"
-            android:label="@string/zip" />
-        <activity
-            android:name=".ui.operators.DisposableExampleActivity"
-            android:label="@string/disposable" />
-        <activity
-            android:name=".ui.operators.SingleObserverExampleActivity"
-            android:label="@string/SingleObserver" />
-        <activity
             android:name=".ui.operators.CompletableObserverExampleActivity"
             android:label="@string/CompletableObserver" />
         <activity
             android:name=".ui.operators.FlowableExampleActivity"
             android:label="@string/Flowable" />
-        <activity
-            android:name=".ui.operators.ReduceExampleActivity"
-            android:label="@string/reduce" />
-        <activity
-            android:name=".ui.operators.BufferExampleActivity"
-            android:label="@string/buffer" />
         <activity
             android:name=".ui.operators.ReplayExampleActivity"
             android:label="@string/replay" />

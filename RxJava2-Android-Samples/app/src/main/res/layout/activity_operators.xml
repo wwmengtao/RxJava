@@ -18,29 +18,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="startSimpleActivity"
-            android:text="@string/simple"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:onClick="startZipActivity"
             android:text="@string/zip"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startDisposableActivity"
-            android:text="@string/disposable"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startSingleObserverActivity"
-            android:text="@string/SingleObserver"
             android:textColor="@android:color/black" />
 
         <Button
@@ -55,20 +34,6 @@
             android:layout_height="wrap_content"
             android:onClick="startFlowableActivity"
             android:text="@string/Flowable"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startReduceActivity"
-            android:text="@string/reduce"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startBufferActivity"
-            android:text="@string/buffer"
             android:textColor="@android:color/black" />
 
         <Button
