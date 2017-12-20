@@ -1,3 +1,2 @@
-include ':rx-example', ':observerexample', ':rxJava2-android-sample', ':rxJava-android-Sample'
+include ':rxJava2-android-sample'
 project(':rxJava2-android-sample').projectDir = new File('RxJava2-Android-Samples/app')
-project(':rxJava-android-Sample').projectDir = new File('RxJava-Android-Samples/app')
